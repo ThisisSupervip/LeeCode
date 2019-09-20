@@ -1,0 +1,32 @@
+/**
+ * 递归解题
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode res  = new ListNode(0);
+        if(l1==null&&l2==null){
+            return null;
+        }
+        calc(res,l1,l2);
+        return res;
+    }
+    private void calc(ListNode p,ListNode pl1,ListNode pl2){
+        if(p==null){
+            return;
+        }
+        if(pl1==null){
+            pl1 = new ListNode(0);
+        }
+        if(pl2==null){
+            pl2 = new ListNode(0);
+        }
+        int t = p.val+pl1.val+pl2.val;
+        p.val = t%10;
+        int carry = t/10;
+        p.next = (pl1.next==null&&pl2.next==null&&carry==0)?null:new ListNode(carry);
+        p = p.next;
+        pl1 = pl1.next;
+        pl2 = pl2.next;
+        calc(p,pl1,pl2);
+    }
+}

@@ -1,0 +1,57 @@
+class Solution {
+    public String longestPalindrome(String s) {
+	
+        if(s.length()<2){
+            return s;
+        }
+		//最长回文子串长度
+        int max = 0;
+		//最长回文子串位于s的左侧索引
+        int maxl = 0;
+		//最长回文子串位于s的右侧索引
+        int maxr = 0;
+		
+		//第一种情况 中间两个字符相同的情况 如：xxxaaxxx
+        for(int i=1;i<s.length();i++){
+            if(s.charAt(i-1)==s.charAt(i)){
+                int same = findSame(i-1,i,s);
+                int len = same*2+2;
+                if(len>max){
+                    max = len;
+                    maxl = i-1-same;
+                    maxr = i+same;
+                }
+            }
+        }
+		
+		//第二种情况 两个相同字符中间相隔一个字符 如：xxxabaxxx
+        if(s.length()>2){
+            for (int i = 2;i<s.length();i++){
+                if(s.charAt(i-2)==s.charAt(i)){
+                    int same = findSame(i-2,i,s);
+                    int len = same*2+2+1;
+                    if(len>max){
+                        max = len;
+                        maxl = i-2-same;
+                        maxr = i+same;
+                    }
+                }
+            }
+        }
+        return s.substring(maxl,maxr+1);
+    }
+	//向两侧拓展 计算左右两侧相同字符个数
+    int findSame(int l,int r,String s){
+        int same = 0;
+        while(l-1>=0&&r+1<s.length()){
+            if(s.charAt(l-1)==s.charAt(r+1)){
+                same+=1;
+                l--;
+                r++;
+            }else {
+                break;
+            }
+        }
+        return same;
+    }
+}
