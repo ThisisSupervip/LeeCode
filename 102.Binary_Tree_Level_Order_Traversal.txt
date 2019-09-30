@@ -1,0 +1,48 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        if(root==null){
+            return new ArrayList<>();
+        }
+        //待处理节点
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        //已读取节点
+        Set<Integer> used = new HashSet<>();
+        //保存结果
+        List<List<Integer>> result = new LinkedList<>();
+        //添加第一个节点到队列
+        queue.push(root);
+
+        while(queue.size()>0){
+            //保存当前步骤下访问的节点
+            List<Integer> nodes = new LinkedList<>();
+            //当前队列的长度
+            int length = queue.size();
+
+            //遍历当前队列中的所有节点
+            for(int i=0;i<length;i++){
+                TreeNode first = queue.pop();
+                nodes.add(first.val);
+                //添加左子节点到队列
+                if(first.left!=null){
+                    queue.add(first.left);
+                }
+                //添加右子节点到队列
+                if(first.right!=null){
+                    queue.add(first.right);
+                }
+            }
+            result.add(nodes);
+        }
+
+        return result;
+    }
+}

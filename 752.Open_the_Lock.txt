@@ -1,0 +1,71 @@
+//1.BFS
+class Solution {
+    public int openLock(String[] deadends, String target) {
+        
+        Queue<String> queue = new LinkedList<>();
+        int step = 0;
+        Set<String> set = new HashSet<>();
+        //保存死亡数字
+        Set<String> deadSet = new HashSet<>(Arrays.asList(deadends));
+        if(deadSet.contains("0000")){
+            return -1;
+        }
+        queue.addAll(rotate("0000"));
+        boolean find = false;
+        while(queue.size()>0&&!find){
+            step++;
+            int l = queue.size();
+            for(int i =0;i<l;i++){
+                String s = queue.poll();
+                //找到目标
+                if(s.equals(target)){
+                    find = true;
+                    break;
+                }
+                //如果为死亡数字
+                if(deadSet.contains(s))
+                    continue;
+                //如果为已访问节点
+                if(set.contains(s))
+                    continue;
+                set.add(s);
+                queue.addAll(rotate(s));
+            }
+
+        }
+        return find?step:-1;
+    }
+    /**
+     * 给定轮盘数组 返回一次旋转可能的结果
+     */
+    private List<String> rotate(String wheels){
+        List<String> result = new ArrayList<>();
+        char[] wheelchars = wheels.toCharArray();
+        for(int i=0;i<4;i++){
+            char c = wheelchars[i];
+            char[] cs = new char[4];
+            System.arraycopy(wheelchars,0,cs,0,4);
+            if(c=='9'){
+                cs[i] = '0';
+                result.add(new String(cs));
+                cs[i] = '8';
+                result.add(new String(cs));
+                continue;
+            }
+            if(c=='0'){
+                cs[i] = '9';
+                result.add(new String(cs));
+                cs[i] = '1';
+                result.add(new String(cs));
+                continue;
+            }
+            cs[i] = (char)(cs[i]+1);
+            result.add(new String(cs));
+            cs[i] = (char)(cs[i]-2);
+            result.add(new String(cs));
+        }
+        return result;
+
+    }
+
+}
