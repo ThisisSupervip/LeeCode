@@ -1,0 +1,28 @@
+class Solution {
+    public boolean isValid(String s) {
+        char[] cs = s.toCharArray();
+        Map<Character,Character> matching = new HashMap<>();
+        matching.put('{','}');
+        matching.put('[',']');
+        matching.put('(',')');
+        Deque<Character> deque = new LinkedList<>();
+        for(char c:cs){
+            //如果为闭合括号出栈
+            if(isClose(c)){
+                Character t = deque.poll();
+                //如果出栈字符与闭合括号不匹配
+                if(t==null||matching.get(t)!=c){
+                    return false;
+                }
+            }
+            //如果为左括号入栈
+            else{
+                deque.push(c);
+            }
+        }
+        return deque.size()==0;
+    }
+    static boolean isClose(char c){
+        return c=='}' || c==']' || c==')';
+    }
+}

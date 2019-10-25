@@ -1,0 +1,25 @@
+class Solution {
+    public int[] dailyTemperatures(int[] T) {
+        Deque<Integer> stack = new LinkedList<>();
+        final int[] res = new int[T.length];
+        for (int i = T.length - 1; i >= 0; i--) {
+            for (;;) {
+                // 如果 栈空 说明当前温度大于以后每天的温度
+                if (stack.isEmpty()) {
+                    stack.push(i);
+                    res[i] = 0;
+                    break;
+                }
+                // 如果栈顶大于当前温度 计算升温天数 并入栈
+                if (T[stack.getFirst()] > T[i]) {
+                    int days = stack.getFirst() - i;
+                    res[i] = days;
+                    stack.push(i);
+                    break;
+                }
+                stack.pop();
+            }
+        }
+        return res;
+    }
+}

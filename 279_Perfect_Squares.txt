@@ -1,0 +1,39 @@
+1.BFS
+class Solution {
+    public int numSquares(int n) {
+        
+        int root = (int) Math.sqrt(n);
+        int step = -1;
+        boolean[] visited = new boolean[n];
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(0);
+        while (queue.size() > 0) {
+            step++;
+            int size = queue.size();
+            for (int j = 0; j < size; j++) {
+
+                int temp = queue.poll();
+                
+                for (int i = root; i > 0; i--) {
+                    int nextSquare = temp + i * i;
+                    int diff = n - nextSquare;
+                    //大于n
+                    if(diff<0){
+                        continue;
+                    }
+                    //求得最短路径
+                    if(diff==0){
+                        return step+1;
+                    }
+                    
+                    if (!visited[nextSquare]) {
+                        visited[nextSquare]=true;
+                        queue.add(nextSquare);
+                    }
+                }
+            }
+
+        }
+        return -1;
+    }
+}
