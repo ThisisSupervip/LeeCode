@@ -1,6 +1,6 @@
 //1.BFS
 import java.awt.Point;
-class Solution {
+public class NumberOfIslandsBFS{
     public int numIslands(char[][] grid) {
 
         if(grid.length==0){
